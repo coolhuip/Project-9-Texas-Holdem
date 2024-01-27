@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import Optional, Union, Any
+
 """
 Classes related to playing cards.
 """
@@ -48,7 +51,7 @@ class Card():
     >>> c3.print()
     King of Clubs
     """
-    SUITS = {'c': 'Clubs', 'd': 'Diamonds', 'h': 'Hearts', 's': 'Spades'}
+    SUITS = {'s': 'Spades', 'h': 'Hearts', 'd': 'Diamonds', 'c': 'Clubs'}
     RANKS = {13: 'King', 12: 'Queen', 11: 'Jack', 10: 'Ten', 9: 'Nine',
              8: 'Eight', 7: 'Seven', 6: 'Six', 5: 'Five', 4: 'Four',
              3: 'Three', 2: 'Two', 1: 'Ace'}
@@ -84,51 +87,55 @@ class Card():
 
 class Deck():
     """
-    A bare-bone simulation of a standard 52-card deck.
-
-    When initializing, optionally pass in `jokers=True` to include two jokers:
-    one black & one colored, for a total of 54 cards.
+    A bare-bone simulation of a standard 52-card deck. No jokers in the deck.
 
     Sample Usage:
     -------------
-    >>> deck = Deck(jokers=True)
-    >>> deck.size()
-    54
     >>> deck = Deck()
     >>> deck.size()
     52
     >>> c1 = deck.draw_card()
-    Ace of Spades
+    >>> c1.print()
+    King of Clubs
     >>> c2 = deck.draw_card()
-    Two of Spades
+    >>> c2.print()
+    Queen of Clubs
     >>> c3 = deck.draw_card()
-    Three of Spades
-    """
-    SUITS = {'c': 'Clubs', 'd': 'Diamonds', 'h': 'Hearts', 's': 'Spades'}
-    RANKS = {13: 'King', 12: 'Queen', 11: 'Jack', 10: 'Ten', 9: 'Nine',
-             8: 'Eight', 7: 'Seven', 6: 'Six', 5: 'Five', 4: 'Four',
-             3: 'Three', 2: 'Two', 1: 'Ace'}
+    >>> c3.print()
+    Jack of Clubs
 
-    _count: int   # number of cards in the deck
+    __Dev Doctest:
+    --------------
+    >>> deck = Deck()
+    >>> deck._DEV_draw_cards(50)
+    >>> deck.draw_card().print()
+    Two of Spades
+    >>> deck.draw_card().print()
+    Ace of Spades
+    """
+    SUITS = ['s', 'h', 'd', 'c']
+    RANKS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+
+    _size: int   # number of cards in the deck
     _card_stack: list[Card]
 
 
-    def __init__(self, jokers: bool=False) -> None:
+    def __init__(self) -> None:
         """
         Initialize a deck of cards.
         """
-        self._count = 54 if jokers else 52
+        self._card_stack = []
         for suit in Deck.SUITS:
-            for rank in Deck.SUITS:
+            for rank in Deck.RANKS:
                 self._card_stack.append(Card(rank, suit))
                 
-            
+        self._size = len(self._card_stack)
 
     def size(self) -> int:
         """
         Return the number of cards in the deck.
         """
-        return self._count
+        return self._size
 
     def shuffle(self) -> None:
         """
@@ -136,11 +143,32 @@ class Deck():
         """
         pass
     
-    def draw_card(self) -> None:
+    def draw_card(self) -> Optional[Card]:
         """
-        Draw a card from the top of the deck.
+        Pop & return a card from the top of the deck.
+
+        If there are no cards left in the deck, print an error message.
         """
-        pass
+        if self._size == 0:
+            print("DECK ERROR: No more cards left in the deck :(")
+        else:
+            self._size -= 1
+            return self._card_stack.pop()
+    
+    def _DEV_draw_cards(self, num: int) -> None:
+        """
+        (FOR DEVELOPER TESTING!)
+        Draw <num> number of cards from the top.
+        """
+        draw_count = 0
+        for _ in range(num):
+            if self._size != 0:
+                self._card_stack.pop()
+                self._size -= 1
+                draw_count += 1
+            else:
+                print("Deck Error: No more cards left in the deck.")
+                print(f"Total Number of Cards Drawn: {draw_count}")
 
 
 if __name__ == '__main__':
