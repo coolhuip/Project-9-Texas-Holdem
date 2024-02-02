@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import Optional, Union, Any
+import random as rand
 
 """
 Classes related to playing cards.
@@ -141,7 +142,7 @@ class Deck():
         """
         Shuffle the deck as it currently is.
         """
-        pass
+        rand.shuffle(self._card_stack)
     
     def draw_card(self) -> Optional[Card]:
         """
