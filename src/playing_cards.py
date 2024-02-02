@@ -95,13 +95,13 @@ class Deck():
     >>> deck = Deck()
     >>> deck.size()
     52
-    >>> c1 = deck.draw_card()
+    >>> c1 = deck.draw()
     >>> c1.print()
     King of Clubs
-    >>> c2 = deck.draw_card()
+    >>> c2 = deck.draw()
     >>> c2.print()
     Queen of Clubs
-    >>> c3 = deck.draw_card()
+    >>> c3 = deck.draw()
     >>> c3.print()
     Jack of Clubs
 
@@ -109,9 +109,9 @@ class Deck():
     --------------
     >>> deck = Deck()
     >>> deck._DEV_draw_cards(50)
-    >>> deck.draw_card().print()
+    >>> deck.draw().print()
     Two of Spades
-    >>> deck.draw_card().print()
+    >>> deck.draw().print()
     Ace of Spades
     """
     SUITS = ['s', 'h', 'd', 'c']
@@ -144,7 +144,7 @@ class Deck():
         """
         rand.shuffle(self._card_stack)
     
-    def draw_card(self) -> Optional[Card]:
+    def draw(self) -> Optional[Card]:
         """
         Pop & return a card from the top of the deck.
 

@@ -1,7 +1,6 @@
 from __future__ import annotations
 from typing import Union, Optional, Any
 from playing_cards import Deck, Card
-
 """
 Stages:
 -------
@@ -34,6 +33,7 @@ Stages:
 12. Reset Round & Loop Back to (4)
 
 """
+PLAYER_NAMES = []
 
 
 
